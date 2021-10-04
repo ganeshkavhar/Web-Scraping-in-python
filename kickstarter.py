@@ -34,22 +34,14 @@ except requests.exceptions.RequestException as e:
 
 structure = html.fromstring(project_page.content)
 
-creator = str(structure.xpath(".//*[@id='content-wrap']/section/div/div[2]/div/div/div[2]/span[1]/a/text()")[0]).strip()
-title = str(structure.xpath(".//*[@id='content-wrap']/section/div/div[2]/div/div/div[3]/h2/text()")[0]).strip()
-description = str(structure.xpath(".//*[@id='content-wrap']/section/div/div[2]/div/div/div[3]/p/text()")[0]).strip()
-backers = str(structure.xpath(".//*[@id='backers_count']/text()")[0]).strip()
-backed_amount = str(structure.xpath(".//*[@id='content-wrap']/section/div/div[1]/div[2]/div[1]/div[3]/div[1]/span[1]/text()")[0]).strip()
-pledged_amount = str(structure.xpath(".//*[@id='content-wrap']/section/div/div[1]/div[2]/div[1]/div[3]/div[1]/span[3]/span[1]/text()")[0]).strip()
+creator = str(structure.xpath("/html/body/div[1]/div[1]/div[1]/div[1]/text()")[0]).strip()
+title = str(structure.xpath("//span[contains(@class, 'txt-rotate')]/@data-rotate")).strip().replace("['[","").replace("]']","").replace('"','')
+skills = str(structure.xpath("//div[contains(@class, 'skill')]//text()")).strip().replace('[','').replace(']','').replace('\'','')
+education = []
+education.append(str(structure.xpath("/html/body/div[1]/div[2]/div[1]/div/div[2]/ul/li[1]//text()")).replace(',','').replace('\\n','').replace('\'','').replace('[','').replace(']','').strip().replace('                              ',', '))
+education.append(str(structure.xpath("/html/body/div[1]/div[2]/div[1]/div/div[2]/ul/li[2]//text()")).replace(',','').replace('\\n','').replace('\'','').replace('[','').replace(']','').strip().replace('                              ',', '))
 
 print ("CREATOR: "+creator)
 print ("TITLE: "+title)
-print ("DESCRIPTION: "+description)
-print ("BACKED AMOUNT: "+backed_amount)
-print ("PLEDGED AMOUNT: "+pledged_amount)
-
-backed_amount = int(backed_amount[1:].replace(",",""))
-pledged_amount = int(pledged_amount[1:].replace(",",""))
-backed_percentage = str(int((backed_amount/pledged_amount)*100)) + "%"
-
-print (backed_percentage + " FUNDED")
-print ("BACKED BY: "+backers+" PEOPLE")
+print ("SKILLS: "+skills)
+print ("EDUCATION: "+str(education).replace('[','').replace(']',''))
