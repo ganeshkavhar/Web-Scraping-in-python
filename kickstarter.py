@@ -1,7 +1,4 @@
 """
-Written by: Shreyas Daniel - github.com/shreydan
-Written on: 29 April 2017
-
 Description: Prints project details of any kickstarter campaign.
 
 Before executing:
